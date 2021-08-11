@@ -10,7 +10,7 @@ import {
 import axios from "axios";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-export default function SignUpScreen({ navigation }) {
+export default function SignUpScreen({ navigation, setToken }) {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [description, setDescription] = useState("");
@@ -26,7 +26,6 @@ export default function SignUpScreen({ navigation }) {
         setError("");
 
         try {
-          console.log("ON PASSE DANS LA REQUETE");
           const response = await axios.post(
             "https://express-airbnb-api.herokuapp.com/user/sign_up",
             {
@@ -36,12 +35,12 @@ export default function SignUpScreen({ navigation }) {
               username,
             }
           );
-          console.log("REQUETE OK");
+
           console.log(response.data);
+          console.log(response.data.token);
+          setToken(response.data.token);
           alert("You successfully signed up! Welcome 😊");
         } catch (error) {
-          console.log("CATCH");
-          console.log(error.response.status);
           console.log(error.response.data); //  { "error": "This username already has an account." }
           if (
             error.response.data.error ===
