@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/core";
 import {
   Button,
@@ -10,8 +10,6 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import { useState } from "react/cjs/react.development";
-import { useEffect } from "react";
 import axios from "axios";
 import { Entypo } from "@expo/vector-icons";
 

@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { StyleSheet, Image, View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import HomeScreen from "./containers/HomeScreen";
 import ProfileScreen from "./containers/ProfileScreen";
 import SignInScreen from "./containers/SignInScreen";
@@ -137,7 +137,7 @@ export default function App() {
                   )}
                 </Tab.Screen>
 
-                <Tab.Screen name="Around Me">
+                <Tab.Screen name="Around me">
                   {() => (
                     <Stack.Navigator>
                       <Stack.Screen
@@ -159,6 +159,13 @@ export default function App() {
                             borderBottomWidth: 0.5,
                           },
                           tabBarLabel: "Around me",
+                          // tabBarIcon: ({ color, size }) => (
+                          //   <FontAwesome
+                          //     name={"map-marker"}
+                          //     size={size}
+                          //     color={color}
+                          //   />
+                          // ),
                         }}
                       >
                         {() => <AroundMeScreen setToken={setToken} />}
