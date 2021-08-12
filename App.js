@@ -3,12 +3,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { StyleSheet, Image, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import HomeScreen from "./containers/HomeScreen";
 import ProfileScreen from "./containers/ProfileScreen";
 import SignInScreen from "./containers/SignInScreen";
 import SignUpScreen from "./containers/SignUpScreen";
 import SettingsScreen from "./containers/SettingsScreen";
+import RoomScreen from "./containers/RoomScreen";
+import AroundMeScreen from "./containers/AroundMeScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -19,9 +22,9 @@ export default function App() {
 
   const setToken = async (token) => {
     if (token) {
-      AsyncStorage.setItem("userToken", token);
+      await AsyncStorage.setItem("userToken", token);
     } else {
-      AsyncStorage.removeItem("userToken");
+      await AsyncStorage.removeItem("userToken");
     }
 
     setUserToken(token);
@@ -48,10 +51,10 @@ export default function App() {
         // No token found, user isn't signed in
         <Stack.Navigator>
           <Stack.Screen name="SignIn">
-            {(props) => <SignInScreen {...props} />}
+            {(props) => <SignInScreen {...props} setToken={setToken} />}
           </Stack.Screen>
           <Stack.Screen name="SignUp">
-            {(props) => <SignUpScreen {...props} />}
+            {(props) => <SignUpScreen {...props} setToken={setToken} />}
           </Stack.Screen>
         </Stack.Navigator>
       ) : (
@@ -79,12 +82,47 @@ export default function App() {
                       <Stack.Screen
                         name="Home"
                         options={{
-                          title: "My App",
-                          headerStyle: { backgroundColor: "red" },
-                          headerTitleStyle: { color: "white" },
+                          title: (
+                            <View>
+                              <Image
+                                style={styles.logo}
+                                source={require("./assets/logo-airbnb.png")}
+                              />
+                            </View>
+                          ),
+                          headerTitleAlign: "center",
+                          headerStyle: {
+                            backgroundColor: "white",
+                            height: 120,
+                            borderBottomColor: "lightgrey",
+                            borderBottomWidth: 0.5,
+                          },
                         }}
                       >
-                        {() => <HomeScreen />}
+                        {(props) => <HomeScreen {...props} />}
+                      </Stack.Screen>
+
+                      <Stack.Screen
+                        name="Room"
+                        options={{
+                          title: (
+                            <View>
+                              <Image
+                                style={styles.logo}
+                                source={require("./assets/logo-airbnb.png")}
+                              />
+                            </View>
+                          ),
+                          headerTitleAlign: "center",
+                          headerStyle: {
+                            backgroundColor: "white",
+                            height: 120,
+                            borderBottomColor: "lightgrey",
+                            borderBottomWidth: 0.5,
+                          },
+                        }}
+                      >
+                        {(props) => <RoomScreen {...props} />}
                       </Stack.Screen>
 
                       <Stack.Screen
@@ -98,6 +136,37 @@ export default function App() {
                     </Stack.Navigator>
                   )}
                 </Tab.Screen>
+
+                <Tab.Screen name="Around Me">
+                  {() => (
+                    <Stack.Navigator>
+                      <Stack.Screen
+                        name="AroundMe"
+                        options={{
+                          title: (
+                            <View>
+                              <Image
+                                style={styles.logo}
+                                source={require("./assets/logo-airbnb.png")}
+                              />
+                            </View>
+                          ),
+                          headerTitleAlign: "center",
+                          headerStyle: {
+                            backgroundColor: "white",
+                            height: 120,
+                            borderBottomColor: "lightgrey",
+                            borderBottomWidth: 0.5,
+                          },
+                          tabBarLabel: "Around me",
+                        }}
+                      >
+                        {() => <AroundMeScreen setToken={setToken} />}
+                      </Stack.Screen>
+                    </Stack.Navigator>
+                  )}
+                </Tab.Screen>
+
                 <Tab.Screen
                   name="Settings"
                   options={{
@@ -130,3 +199,12 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  logo: {
+    height: 50,
+    width: 50,
+    resizeMode: "contain",
+    marginVertical: 0,
+  },
+});

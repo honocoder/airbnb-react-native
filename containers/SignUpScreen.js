@@ -36,8 +36,8 @@ export default function SignUpScreen({ navigation, setToken }) {
             }
           );
 
-          console.log(response.data);
-          console.log(response.data.token);
+          console.log("ICI ==>", response.data);
+
           setToken(response.data.token);
           alert("You successfully signed up! Welcome 😊");
         } catch (error) {
@@ -77,7 +77,7 @@ export default function SignUpScreen({ navigation, setToken }) {
           placeholder="email"
           onChangeText={(text) => setEmail(text)}
         />
-        {console.log({ email })}
+        {/* {console.log({ email })} */}
         <TextInput
           style={styles.input}
           placeholder="username"
